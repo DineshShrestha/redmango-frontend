@@ -1,9 +1,14 @@
 import React from 'react'
+import {useParams} from 'react-router-dom';
+import { useGetMenuItemByIdQuery } from '../Apis/menuItemApi';
 
 function MenuItemDetails() {
+  const {menuItemId} = useParams();
+  const {data, isLoading} = useGetMenuItemByIdQuery(menuItemId);
+  console.log(data);
   return (
     <div className="container pt-4 pt-md-5">
-    <div className="row">
+      {!isLoading? (<div className="row">
       <div className="col-7">
         <h2 className="text-success">NAME</h2>
         <span>
@@ -62,7 +67,10 @@ function MenuItemDetails() {
           alt="No content"
         ></img>
       </div>
-    </div>
+    </div>): (
+    <div className='d-flex justify-content-center' style={{width: "100%"}}>
+      <div>Loading...</div> 
+    </div>)}
   </div>
   )
 }
