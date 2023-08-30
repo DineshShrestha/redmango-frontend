@@ -1,23 +1,23 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 
 const menuItemApi = createApi({
-    reducerPath: "menuItemApi",
+    reducerPath:"menuItemApi",
     baseQuery: fetchBaseQuery({
         baseUrl: "https://redmangoapi.azurewebsites.net/api/"
     }),
-    tagTypes: ["menuItems"],
+    tagTypes: ["MenuItems"],
     endpoints: (builder)=> ({
         getMenuItems: builder.query({
             query: ()=> ({
                 url: "menuitem"
             }),
-            providesTags: ["menuItems"]
+            providesTags: ["MenuItems"]
         }),
         getMenuItemById: builder.query({
             query: (id)=> ({
                 url: `menuitem/${id}`
             }),
-            providesTags: ["menuItems"]
+            providesTags: ["MenuItems"]
         })
     })
 });

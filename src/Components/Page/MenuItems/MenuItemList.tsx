@@ -14,6 +14,7 @@ function MenuItemList() {
         dispatch(setMenuItem(data.result))
       }
     },[isLoading]);
+    
     if(isLoading){
       return <div>Loading...</div>
     }
