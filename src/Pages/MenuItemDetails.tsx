@@ -5,7 +5,15 @@ import { useNavigate } from 'react-router-dom';
 import {useState} from 'react';
 import { useUpdateShoppingCartMutation } from '../Apis/shoppingCartApi';
 import { MainLoader, MiniLoader } from '../Components/Page/Common';
-//USER ID 735f69ab-d406-4de0-b29f-6d2ec14aaff1
+//"id": "71ef862c-ec86-47f1-831f-a83ea923ed1d",
+/*{
+  {
+  "userName": "raman@hotmail.com",
+  "name": "Raman Sagar",
+  "password": "admin123*",
+  "role": "admin"
+}
+}*/
 function MenuItemDetails() {
   const {menuItemId} = useParams();
   const {data, isLoading} = useGetMenuItemByIdQuery(menuItemId);
@@ -27,7 +35,7 @@ function MenuItemDetails() {
     const response = await updateShoppingCart({
       menuItemId:menuItemId, 
       updateQuantityBy:quantity, 
-      userId:"735f69ab-d406-4de0-b29f-6d2ec14aaff1"
+      userId:"71ef862c-ec86-47f1-831f-a83ea923ed1d"
     });
     console.log(response);
     setIsAddingToCart(false);
