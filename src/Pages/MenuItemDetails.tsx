@@ -5,12 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import {useState} from 'react';
 import { useUpdateShoppingCartMutation } from '../Apis/shoppingCartApi';
 import { MainLoader, MiniLoader } from '../Components/Page/Common';
-//"id": "71ef862c-ec86-47f1-831f-a83ea923ed1d",
+//"id": "395112c9-5103-4bbb-a127-88dc938c315f",
 /*{
   {
-  "userName": "raman@hotmail.com",
-  "name": "Raman Sagar",
-  "password": "admin123*",
+  "userName": "adminram@gmail.com",
+  "name": "Ram Admin",
+  "password": "Admin123*",
   "role": "admin"
 }
 }*/
@@ -23,7 +23,7 @@ function MenuItemDetails() {
   const [updateShoppingCart] = useUpdateShoppingCartMutation();
   const handleQuantity = (counter:number)=>{
     let newQuantity = quantity + counter;
-    if(newQuantity == 0){
+    if(newQuantity === 0){
       newQuantity = 1; 
     }
     setQuantity(newQuantity);
@@ -35,7 +35,7 @@ function MenuItemDetails() {
     const response = await updateShoppingCart({
       menuItemId:menuItemId, 
       updateQuantityBy:quantity, 
-      userId:"71ef862c-ec86-47f1-831f-a83ea923ed1d"
+      userId:"395112c9-5103-4bbb-a127-88dc938c315f"
     });
     console.log(response);
     setIsAddingToCart(false);

@@ -21,7 +21,7 @@ function CartSummary() {
         updateShoppingCart({
           menuItemId:cartItem.menuItem?.id,
           updateQuantityBy:0,
-          userId:"71ef862c-ec86-47f1-831f-a83ea923ed1d"
+          userId:"395112c9-5103-4bbb-a127-88dc938c315f"
         });
         dispatch(removeFromCart({cartItem, quantity:0}))
        
@@ -31,7 +31,7 @@ function CartSummary() {
         updateShoppingCart({
           menuItemId:cartItem.menuItem?.id,
           updateQuantityBy:updateQuantityBy,
-          userId:"71ef862c-ec86-47f1-831f-a83ea923ed1d"
+          userId:"395112c9-5103-4bbb-a127-88dc938c315f"
         });
         dispatch(updateQuantity({cartItem, quantity:cartItem.quantity!+updateQuantityBy}));     
       }
@@ -92,4 +92,4 @@ function CartSummary() {
   )
 }
 
-export default CartSummary
+export default CartSummary;

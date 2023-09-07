@@ -30,7 +30,7 @@ function Register() {
         if(response.data){
             console.log(response.data);
         } else if(response.error){
-            console.log(response.error.data.errorMessages[0]);
+            console.log(response.error);
         }
         setLoading(false);
     }

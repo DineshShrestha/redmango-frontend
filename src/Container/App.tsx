@@ -5,14 +5,16 @@ import {Routes, Route} from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { useGetMenuItemByIdQuery } from "../Apis/menuItemApi";
 import { setShoppingCart } from "../Storage/Redux/shoppingCartSlice";
+import { useGetShoppingCartQuery } from "../Apis/shoppingCartApi";
 
 function App() {
   const dispatch = useDispatch();
 
-  const {data, isLoading} = useGetMenuItemByIdQuery("b7ae37bf-09b1-4b47-9ce1-c963031d2920");
+  const {data, isLoading} = useGetShoppingCartQuery("395112c9-5103-4bbb-a127-88dc938c315f");
 
   useEffect(()=>{
     if(!isLoading){
+      console.log(data.result);
       dispatch(setShoppingCart(data.result?.cartItems));
     }
   }, [data]);

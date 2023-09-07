@@ -14,7 +14,7 @@ function MenuItemCard(props: Props) {
     const response = await updateShoppingCart({
       menuItemId:menuItemId, 
       updateQuantityBy:1, 
-      userId:"71ef862c-ec86-47f1-831f-a83ea923ed1d"
+      userId:"395112c9-5103-4bbb-a127-88dc938c315f"
     });
     setIsAddingToCart(false);
   }
