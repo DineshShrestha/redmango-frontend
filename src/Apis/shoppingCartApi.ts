@@ -8,22 +8,21 @@ const shoppingCartApi = createApi({
     tagTypes: ["ShoppingCart"],
     endpoints: (builder)=> ({
         getShoppingCart: builder.query({
-            query: (userId)=> ({
+            query: ()=> ({
                 url: `shoppingcart`,
                 params:{
-                    userId:userId
                 }
             }),
             providesTags: ["ShoppingCart"],
         }),
         updateShoppingCart:builder.mutation({
-            query: ({menuItemId, updateQuantityBy, userId})=> ({
+            query: ({menuItemId, updateQuantityBy, })=> ({
                 url: "shoppingcart",
                 method: "POST",
                 params: {
                     menuItemId,
                     updateQuantityBy,
-                    userId
+                    
                 },
             }),
             invalidatesTags: ["ShoppingCart"]
