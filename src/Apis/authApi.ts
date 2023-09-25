@@ -6,25 +6,24 @@ const authApi = createApi({
         baseUrl: "https://redmangoapi.azurewebsites.net/api/"
     }),
     endpoints: (builder)=> ({
-       
        registerUser:builder.mutation({
-            query: ({userData})=> ({
+            query: (userData)=> ({
                 url: "auth/register",
                 method: "POST",
                 headers: {
                     "Content-type": "application/json",
                 },
-                body:userData
+                body:userData,
                 }),
             }),
             loginUser: builder.mutation({
-                query: ({userCredentials})=> ({
+                query: (userCredentials)=> ({
                     url: "auth/login",
                     method: "POST",
                     headers: {
                         "Content-type": "application/json",
                     },
-                body:userCredentials
+                body:userCredentials,
             }),
         })
     })
