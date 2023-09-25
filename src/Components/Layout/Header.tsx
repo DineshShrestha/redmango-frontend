@@ -1,14 +1,23 @@
 import React from 'react'
-import { useSelector } from 'react-redux';
-import {NavLink} from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import {NavLink, useNavigate} from 'react-router-dom';
 import { cartItemModel, userModel } from '../../Interfaces';
 import { RootState } from '../../Storage/Redux/store';
+import { emptyUserState, setLoggedInUser } from '../../Storage/Redux/userAuthSlice';
 let logo = require("../../Assets/Images/mango.png");
 function Header() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const shoppingCartFromStore : cartItemModel[] = useSelector(
     (state: RootState)=>state.shoppingCartStore.cartItems??[]
 );
 const userData: userModel = useSelector((state: RootState)=> state.userAuthStore);
+
+const handleLogout =()=>{
+  localStorage.removeItem("token");
+  dispatch(setLoggedInUser({...emptyUserState}));
+  navigate("/");
+}
   return (
     <div><nav className="navbar navbar-expand-lg bg-dark navbar-dark">
     <div className="container-fluid">
@@ -54,7 +63,7 @@ const userData: userModel = useSelector((state: RootState)=> state.userAuthStore
                   </button> 
           </li>
           <li className='nav-item'>
-            <button className='btn btn-success btn-outlined rounded-pill text-white mx-2' style={{border: "none", height: "40px", width:"100px"}}>Logout</button>
+            <button className='btn btn-success btn-outlined rounded-pill text-white mx-2' style={{border: "none", height: "40px", width:"100px"}} onClick={handleLogout}>Logout</button>
           </li></>)}
          
          {!userData.id && (<><li className='nav-item text-white'>
