@@ -23,7 +23,7 @@ function MenuItemCard(props: Props) {
     const response: apiResponse = await updateShoppingCart({
       menuItemId:menuItemId, 
       updateQuantityBy:1, 
-      userId:"395112c9-5103-4bbb-a127-88dc938c315f"
+      userId:userData.id
     });
     if(response.data && response.data.isSuccess){
       toastNotify("Item added to cart successfully!!");

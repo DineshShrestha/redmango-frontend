@@ -44,7 +44,7 @@ function MenuItemDetails() {
     const response: apiResponse = await updateShoppingCart({
       menuItemId:menuItemId, 
       updateQuantityBy:quantity, 
-      userId:"395112c9-5103-4bbb-a127-88dc938c315f"
+      userId:userData.id
     });
     if(response.data && response.data.isSuccess){
       toastNotify("Item added successfully to the cart");

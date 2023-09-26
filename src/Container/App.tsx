@@ -2,17 +2,18 @@ import React,{useEffect} from "react";
 import {Header, Footer} from "../Components/Layout/";
 import { AccessDenied, AuthenticationTest, AuthenticationTestAdmin, Home, Login, MenuItemDetails, NotFound, Register, ShoppingCart } from "../Pages";
 import {Routes, Route} from 'react-router-dom';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useGetMenuItemByIdQuery } from "../Apis/menuItemApi";
 import { setShoppingCart } from "../Storage/Redux/shoppingCartSlice";
 import { useGetShoppingCartQuery } from "../Apis/shoppingCartApi";
 import jwt_decode from 'jwt-decode';
 import { userModel } from "../Interfaces";
 import { setLoggedInUser } from "../Storage/Redux/userAuthSlice";
+import { RootState } from "../Storage/Redux/store";
 function App() {
   const dispatch = useDispatch();
-
-  const {data, isLoading} = useGetShoppingCartQuery("395112c9-5103-4bbb-a127-88dc938c315f");
+  const userData:userModel = useSelector((state: RootState)=>state.userAuthStore);
+  const {data, isLoading} = useGetShoppingCartQuery(userData.id);
   useEffect(()=>{
     const localToken = localStorage.getItem("token");
     if(localToken){
