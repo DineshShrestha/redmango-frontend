@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { cartItemModel } from '../../Interfaces';
+import { cartItemModel, userModel } from '../../Interfaces';
 import { RootState } from '../../Storage/Redux/store';
 import { inputHelper } from '../../Helper';
 import { MiniLoader } from '../Page/Common';
@@ -9,11 +9,12 @@ function CartPickUpDetails() {
     const shoppingCartFromStore : cartItemModel[] = useSelector(
         (state: RootState)=>state.shoppingCartStore.cartItems??[]
     );
+    const userData:userModel = useSelector((state: RootState)=>state.userAuthStore);
     let grandTotal = 0;
     let totalItems = 0;
     const initialUserData={
-        name: "",
-        email: "",
+        name: userData.fullName,
+        email: userData.email,
         phoneNumber:""
     };
     shoppingCartFromStore?.map((cartItem: cartItemModel)=>{
