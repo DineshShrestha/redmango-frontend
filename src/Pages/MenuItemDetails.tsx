@@ -5,8 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import {useState} from 'react';
 import { useUpdateShoppingCartMutation } from '../Apis/shoppingCartApi';
 import { MainLoader, MiniLoader } from '../Components/Page/Common';
-import { apiResponse } from '../Interfaces';
+import { apiResponse, userModel } from '../Interfaces';
 import { toastNotify } from '../Helper';
+import { useSelector } from 'react-redux';
+import { RootState } from '../Storage/Redux/store';
 //"id": "395112c9-5103-4bbb-a127-88dc938c315f",
 /*{
   {
@@ -23,6 +25,7 @@ function MenuItemDetails() {
   const [quantity, setQuantity] = useState(1);
   const [isAddingToCart, setIsAddingToCart] = useState<boolean>(false);
   const [updateShoppingCart] = useUpdateShoppingCartMutation();
+  const userData:userModel = useSelector((state: RootState)=>state.userAuthStore);
   const handleQuantity = (counter:number)=>{
     let newQuantity = quantity + counter;
     if(newQuantity === 0){
@@ -33,6 +36,10 @@ function MenuItemDetails() {
   }
 
   const handleAddToCart = async (menuItemId:number)=> {
+    if(!userData.id){
+      navigate("/login");
+      return;
+    }
     setIsAddingToCart(true);
     const response: apiResponse = await updateShoppingCart({
       menuItemId:menuItemId, 
