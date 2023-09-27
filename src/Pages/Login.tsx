@@ -29,7 +29,6 @@ function Login() {
         userName:userInput.userName,
         password:userInput.password,
         });
-        console.log("login--> ",response);
         if(response.data){
             const {token} = response.data.result;
 
@@ -38,7 +37,6 @@ function Login() {
             dispatch(setLoggedInUser({fullName, id, email, role}));
             navigate("/")
         } else if(response.error){
-            console.log(response.error.data.errorMessages[0]);
             setError(response.error.data.errorMessages[0]);
         }
         setLoading(false);
