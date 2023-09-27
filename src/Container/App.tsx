@@ -1,6 +1,6 @@
 import React,{useEffect} from "react";
 import {Header, Footer} from "../Components/Layout/";
-import { AccessDenied, AuthenticationTest, AuthenticationTestAdmin, Home, Login, MenuItemDetails, NotFound, Register, ShoppingCart } from "../Pages";
+import { AccessDenied, AuthenticationTest, AuthenticationTestAdmin, Home, Login, MenuItemDetails, NotFound, Payment, Register, ShoppingCart } from "../Pages";
 import {Routes, Route} from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { useGetMenuItemByIdQuery } from "../Apis/menuItemApi";
@@ -40,6 +40,7 @@ function App() {
         <Route path="/authentication" element={<AuthenticationTest/>}></Route>
         <Route path="/authorization" element={<AuthenticationTestAdmin/>}></Route>
         <Route path="/accessDenied" element={<AccessDenied/>}></Route>
+        <Route path="/payment" element={<Payment/>}></Route>
         <Route path="*" element={<NotFound/>}></Route>
       </Routes>
     </div>
