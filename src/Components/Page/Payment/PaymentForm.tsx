@@ -1,15 +1,20 @@
 import React, { useState } from 'react'
 import {useStripe, useElements, PaymentElement} from '@stripe/react-stripe-js';
 import { toastNotify } from '../../../Helper';
-function PaymentForm() {
+import { orderSummaryProps } from '../Order/orderSummaryProps';
+import { apiResponse, cartItemModel } from '../../../Interfaces';
+import { useCreateOrderMutation } from '../../../Apis/orderApi';
+import { SD_Status } from '../../../Utility/SD';
+function PaymentForm({data, userInput}:orderSummaryProps) {
         const stripe = useStripe();
         const elements = useElements();
+        const [createOrder] = useCreateOrderMutation();
         const [isProcessing, setIsProcessing] = useState(false);
         const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
           // We don't want to let default form submission happen here,
           // which would refresh the page.
           event.preventDefault();
-      
+          
           if (!stripe || !elements) {
             // Stripe.js hasn't yet loaded.
             // Make sure to disable form submission until Stripe.js has loaded.
@@ -31,6 +36,32 @@ function PaymentForm() {
             setIsProcessing(false);
           } else {
            console.log(result);
+           let grandTotal = 0;
+           let totalItems = 0;
+           const orderDetailsDTO: any=[];
+           data.cartItems.forEach((item:cartItemModel)=>{
+            const tempOrderDetail: any={};
+            tempOrderDetail["menuItemId"] = item.menuItem?.id;
+            tempOrderDetail["quantity"] = item.quantity;
+            tempOrderDetail["itemName"] = item.menuItem?.name;
+            tempOrderDetail["price"] = item.menuItem?.price;
+            orderDetailsDTO.push(tempOrderDetail);
+            grandTotal+=(item.quantity!*item.menuItem?.price!);
+            totalItems+=item.quantity!;
+           });
+           const response: apiResponse = await createOrder({
+              pickupName: userInput.name,
+              pickupPhoneNumber: userInput.phoneNumber,
+              pickupEmail: userInput.email,
+              totalItems: totalItems,
+              orderTotal: grandTotal,
+              orderDetailsDTO: orderDetailsDTO,
+              stripePaymentIntentId: data.stripePaymentIntentId,
+              applicationUserId: data.userId,
+              status: result.paymentIntent.status ==="succeeded"? SD_Status.CONFIRMED : SD_Status.PENDING
+           });
+
+           console.log(response);
           }
         };
   return (
