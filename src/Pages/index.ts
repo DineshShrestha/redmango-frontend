@@ -9,4 +9,5 @@ import AuthenticationTestAdmin from "./AuthenticationTestAdmin";
 import AccessDenied from "./AccessDenied";
 import Payment from "./Payment";
 import OrderConfirmed from "./Order/OrderConfirmed";
-export {OrderConfirmed, Home, NotFound, MenuItemDetails, ShoppingCart, Login, Register, AuthenticationTest, AccessDenied, AuthenticationTestAdmin, Payment};
+import MyOrders from "./Order/MyOrders";
+export {MyOrders, OrderConfirmed, Home, NotFound, MenuItemDetails, ShoppingCart, Login, Register, AuthenticationTest, AccessDenied, AuthenticationTestAdmin, Payment};
