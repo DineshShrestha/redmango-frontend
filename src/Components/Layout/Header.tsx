@@ -41,9 +41,7 @@ const handleLogout =()=>{
            <ul className="dropdown-menu">
            <li className="dropdown-item" style={{cursor: "pointer"}}  onClick={()=>navigate("menuitem/menuitemlist")}>Menu Item</li>
              <li className='dropdown-item' style={{cursor: "pointer"}} onClick={()=> navigate("order/myorders")}>My Orders</li>
-             <li className='dropdown-item' style={{cursor: "pointer"}} onClick={()=> navigate("order/allOrders")}>All Orders</li>
-          
-            
+             <li className='dropdown-item' style={{cursor: "pointer"}} onClick={()=> navigate("order/allOrders")}>All Orders</li>         
            </ul>
          </li>
          ) : (
