@@ -1,6 +1,6 @@
 import React,{useEffect} from "react";
 import {Header, Footer} from "../Components/Layout/";
-import { AccessDenied, AllOrders, AuthenticationTest, AuthenticationTestAdmin, Home, Login, MenuItemDetails, MenuItemList, MyOrders, NotFound, OrderConfirmed, OrderDetails, Payment, Register, ShoppingCart } from "../Pages";
+import { AccessDenied, AllOrders, AuthenticationTest, AuthenticationTestAdmin, Home, Login, MenuItemDetails, MenuItemList, MenuItemUpsert, MyOrders, NotFound, OrderConfirmed, OrderDetails, Payment, Register, ShoppingCart } from "../Pages";
 import {Routes, Route} from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { useGetMenuItemByIdQuery } from "../Apis/menuItemApi";
@@ -44,6 +44,8 @@ function App() {
         <Route path="/order/myOrders" element={<MyOrders/>}></Route>
         <Route path="/order/allOrders" element={<AllOrders/>}></Route>
         <Route path="/menuItem/menuitemlist" element={<MenuItemList/>}></Route>
+        <Route path="/menuItem/menuItemUpsert/:id" element={<MenuItemUpsert/>}></Route>
+        <Route path="/menuItem/menuItemUpsert" element={<MenuItemUpsert/>}></Route>
         <Route path="/payment" element={<Payment/>}></Route>
         <Route path="*" element={<NotFound/>}></Route>
       </Routes>

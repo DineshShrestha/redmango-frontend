@@ -13,4 +13,5 @@ import MyOrders from "./Order/MyOrders";
 import OrderDetails from "./Order/OrderDetails";
 import AllOrders from "./Order/AllOrders";
 import MenuItemList from "./MenuItem/MenuItemList";
-export {MenuItemList, AllOrders,OrderDetails, MyOrders, OrderConfirmed, Home, NotFound, MenuItemDetails, ShoppingCart, Login, Register, AuthenticationTest, AccessDenied, AuthenticationTestAdmin, Payment};
+import MenuItemUpsert from "./MenuItem/MenuItemUpsert";
+export {MenuItemUpsert, MenuItemList, AllOrders,OrderDetails, MyOrders, OrderConfirmed, Home, NotFound, MenuItemDetails, ShoppingCart, Login, Register, AuthenticationTest, AccessDenied, AuthenticationTestAdmin, Payment};
