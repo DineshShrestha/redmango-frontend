@@ -28,7 +28,7 @@ function MenuItemUpsert() {
             placeholder="Enter Name"
             required
             name="name"
-            value={menuItemData.name}
+            value={menuItemInputs.name}
             onChange={handleMenuItemInput}
           />
           <textarea
@@ -36,7 +36,7 @@ function MenuItemUpsert() {
             placeholder="Enter Description"
             rows={10}
             name="description"
-            value={menuItemData.description}
+            value={menuItemInputs.description}
             onChange={handleMenuItemInput}
           ></textarea>
           <input
@@ -44,7 +44,7 @@ function MenuItemUpsert() {
             className="form-control mt-3"
             placeholder="Enter Special Tag"
             name="specialTag"
-            value={menuItemData.specialTag}
+            value={menuItemInputs.specialTag}
             onChange={handleMenuItemInput}
           />
           <input
@@ -52,7 +52,7 @@ function MenuItemUpsert() {
             className="form-control mt-3"
             placeholder="Enter Category"
             name="category"
-            value={menuItemData.category}
+            value={menuItemInputs.category}
             onChange={handleMenuItemInput}
           />
           <input
@@ -60,7 +60,7 @@ function MenuItemUpsert() {
             className="form-control mt-3"
             required
             name="price"
-            value={menuItemData.price}
+            value={menuItemInputs.price}
             onChange={handleMenuItemInput}
             placeholder="Enter Price"
           />
