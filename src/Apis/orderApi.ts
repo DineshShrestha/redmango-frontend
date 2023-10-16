@@ -5,7 +5,7 @@ const orderApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: "https://redmangoapi.azurewebsites.net/api/"
     }),
-    tagTypes: ["orders"],
+    tagTypes: ["Orders"],
     endpoints: (builder)=> ({
         createOrder: builder.mutation({
             query: (orderDetails)=> ({
@@ -16,7 +16,7 @@ const orderApi = createApi({
                 },
                 body: orderDetails,
             }),
-            invalidatesTags: ["orders"]
+            invalidatesTags: ["Orders"]
         }),
         getAllOrders: builder.query({
             query: (userId)=> ({
@@ -25,16 +25,27 @@ const orderApi = createApi({
                     userId: userId
                 }
             }),
-            providesTags: ["orders"]
+            providesTags: ["Orders"]
         }),
         getOrderDetails: builder.query({
             query: (id)=> ({
                 url: `order/${id}`
             }),
-            providesTags: ["orders"]
+            providesTags: ["Orders"]
+        }),
+        updateOrderHeader: builder.mutation({
+            query: (orderDetails)=>({
+                url: "order/"+orderDetails.orderHeaderId,
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: orderDetails
+            }),
+            invalidatesTags: ["Orders"]
         })
     })
 });
 
-export const {useCreateOrderMutation, useGetAllOrdersQuery, useGetOrderDetailsQuery} = orderApi;
+export const {useCreateOrderMutation, useGetAllOrdersQuery, useGetOrderDetailsQuery, useUpdateOrderHeaderMutation} = orderApi;
 export default orderApi;
