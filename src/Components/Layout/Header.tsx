@@ -39,10 +39,11 @@ const handleLogout =()=>{
              Admin panel
            </a>
            <ul className="dropdown-menu">
+           <li className="dropdown-item" style={{cursor: "pointer"}}  onClick={()=>navigate("menuitem/menuitemlist")}>Menu Item</li>
              <li className='dropdown-item' style={{cursor: "pointer"}} onClick={()=> navigate("order/myorders")}>My Orders</li>
              <li className='dropdown-item' style={{cursor: "pointer"}} onClick={()=> navigate("order/allOrders")}>All Orders</li>
           
-             <li><a className="dropdown-item" href="#">Something else here</a></li>
+            
            </ul>
          </li>
          ) : (
