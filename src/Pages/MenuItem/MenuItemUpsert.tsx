@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import { inputHelper, toastNotify } from '../../Helper';
-
+import { useCreateMenuItemMutation } from '../../Apis/menuItemApi';
+import { useNavigate } from 'react-router-dom';
+import { MainLoader } from '../../Components/Page/Common';
 const menuItemData = {
     name: "",
     description: "",
@@ -9,10 +11,13 @@ const menuItemData = {
     price: "",
 };
 function MenuItemUpsert() {
-    const [imageToBeStore, setImageToBeStore] = useState<any>();
-    const [imageToBeDisplay, setImageToBeDisplay] = useState<string>("");
+    const navigate = useNavigate();
+    const [imageToStore, setImageToStore] = useState<any>();
+    const [imageToDisplay, setImageToDisplay] = useState<string>("");
     const [menuItemInputs, setMenuItemInputs] = useState(menuItemData);
-
+    const [loading, setLoading] = useState(false);
+    const [createMenuItem] = useCreateMenuItemMutation();
+    
     const handleMenuItemInput=(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>)=>{
         const tempData = inputHelper(e, menuItemInputs);
         setMenuItemInputs(tempData);
@@ -27,31 +32,55 @@ function MenuItemUpsert() {
                 return e=== imgType;
             });
             if(file.size > 1000 * 1024){
-                setImageToBeStore("");
+                setImageToStore("");
                 toastNotify("File must be less than 1 MB", "error");
                 return;
             }
             else if (isImageTypeValid.length === 0){
-                setImageToBeStore("");
+                setImageToStore("");
                 toastNotify("File must be in jpeg, jpg, or png", "error");
                 return;
             }
 
             const reader = new FileReader();
             reader.readAsDataURL(file);
-            setImageToBeStore(file);
+            setImageToStore(file);
             reader.onload= (e)=>{
                 const imgUrl = e.target?.result as string;
-                setImageToBeDisplay(imgUrl);
+                setImageToDisplay(imgUrl);
             } 
         }
+    };
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>)=>{
+        e.preventDefault();
+        setLoading(true);
+        if(!imageToStore){
+            toastNotify("please upload an image", "error");
+            setLoading(false);
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("Name", menuItemInputs.name);
+        formData.append("Description", menuItemInputs.description);
+        formData.append("SpecialTag", menuItemInputs.specialTag);
+        formData.append("Category", menuItemInputs.category);
+        formData.append("Price", menuItemInputs.price);
+        formData.append("File",imageToStore);
+        const response = await createMenuItem(formData);
+        if(response){
+            setLoading(false);
+            navigate("/menuItem/menuitemlist");
+        }
+        setLoading(false);
     }
   return (
-    <div className="container border mt-5 p-5">
-    <h3 className="offset-2 px-2 text-success">Add Product</h3>
-    <form method="post" encType="multipart/form-data">
+    <div className="container border mt-5 p-5 bg-light">
+      {loading && <MainLoader/>}
+    <h3 className="px-2 text-success">Add Menu Item</h3>
+    <form method="post" encType="multipart/form-data" onSubmit={handleSubmit}>
       <div className="row mt-3">
-        <div className="col-md-5 offset-2">
+        <div className="col-md-7">
           <input
             type="text"
             className="form-control"
@@ -95,19 +124,25 @@ function MenuItemUpsert() {
             placeholder="Enter Price"
           />
           <input type="file" onChange={handleFileChange} className="form-control mt-3" />
-          <div className="text-center">
-            <button
-              type="submit"
-              style={{ width: "50%" }}
-              className="btn btn-success mt-5"
-            >
-              Submit
-            </button>
+          <div className="row">
+            <div className="col-6">
+              <button
+                type="submit"
+                className="btn btn-success form-control mt-3"
+              >
+                Submit
+              </button>
+            </div>
+            <div className="col-6">
+              <a onClick={()=> navigate(-1)} className='btn btn-secondary form-control mt-3'>
+                Back to Menu Items
+              </a>
+            </div>
           </div>
         </div>
         <div className="col-md-5 text-center">
           <img
-            src={imageToBeDisplay}
+            src={imageToDisplay}
             style={{ width: "100%", borderRadius: "30px" }}
             alt=""
           />
