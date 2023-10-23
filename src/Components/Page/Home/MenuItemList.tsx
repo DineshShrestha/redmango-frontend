@@ -20,7 +20,7 @@ function MenuItemList() {
     )
     useEffect(()=> {
       if(data && data.result){
-        const tempMenuArray = handleFilter(searchValue);
+        const tempMenuArray = handleFilter(selectedCategory, searchValue);
         setMenuItems(tempMenuArray);
       }
     },[searchValue]);
@@ -38,17 +38,38 @@ function MenuItemList() {
       }
     },[isLoading]);
     
-
-    const handleFilter = (search: string)=> {
-      let tempMenuItems = [...data.result];
+    const handleCategoryClick = (i: number)=>{
+      const buttons = document.querySelectorAll(".custom-buttons");
+      let localCategory;
+      buttons.forEach((button, index)=>{
+        if(index ===i){
+          button.classList.add("active");
+          if(index === 0){
+            localCategory ="All";
+          }
+          else{
+            localCategory = categoryList[index];
+          }
+          setSelectedCategory(localCategory);
+          const tempArray = handleFilter(localCategory, searchValue);
+          setMenuItems(tempArray);
+        }else {
+          button.classList.remove("active");
+        }
+      })
+    }
+    const handleFilter = (category:string, search: string)=> {
+      let tempArray  = category ==="All"? [...data.result]: data.result.filter((item: menuItemModel)=>(
+        item.category.toUpperCase() === category.toUpperCase()
+      ));
 
       // search funtionality
       if(search){
-        const tempSearchMenuItems = [...tempMenuItems];
-        tempMenuItems = tempSearchMenuItems.filter((item: menuItemModel)=> item.name.toUpperCase().includes(search.toUpperCase())
+        const tempSearchMenuItems = [...tempArray];
+        tempArray = tempSearchMenuItems.filter((item: menuItemModel)=> item.name.toUpperCase().includes(search.toUpperCase())
         );
       }
-      return tempMenuItems;
+      return tempArray;
     }
     if(isLoading){
       return <div><MainLoader/></div>
@@ -59,7 +80,7 @@ function MenuItemList() {
         <ul className="nav w-100 d-flex justify-content-center">
           {categoryList.map((categoryName, index)=>(
             <li className="nav-item" key={index}>
-              <button className={`nav-link p-0 pb-2 custom-buttons fs-5 ${index === 0 && "active"}`}>
+              <button className={`nav-link p-0 pb-2 custom-buttons fs-5 ${index === 0 && "active"}`} onClick={()=>handleCategoryClick(index)}>
                 {categoryName}
               </button>
             </li>
