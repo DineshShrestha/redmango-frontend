@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React,{useEffect, useState} from "react";
 import {Header, Footer} from "../Components/Layout/";
 import { AccessDenied, AllOrders, AuthenticationTest, AuthenticationTestAdmin, Home, Login, MenuItemDetails, MenuItemList, MenuItemUpsert, MyOrders, NotFound, OrderConfirmed, OrderDetails, Payment, Register, ShoppingCart } from "../Pages";
 import {Routes, Route} from 'react-router-dom';
@@ -11,9 +11,10 @@ import { userModel } from "../Interfaces";
 import { setLoggedInUser } from "../Storage/Redux/userAuthSlice";
 import { RootState } from "../Storage/Redux/store";
 function App() {
+  const [skip, setSkip] = useState(true);
   const dispatch = useDispatch();
   const userData:userModel = useSelector((state: RootState)=>state.userAuthStore);
-  const {data, isLoading} = useGetShoppingCartQuery(userData.id);
+  const {data, isLoading} = useGetShoppingCartQuery(userData.id, {skip: skip});
   useEffect(()=>{
     const localToken = localStorage.getItem("token");
     if(localToken){
@@ -26,6 +27,10 @@ function App() {
       dispatch(setShoppingCart(data.result?.cartItems));
     }
   }, [data]);
+
+  useEffect(()=>{
+    if(userData.id) setSkip(false);
+  }, [userData]);
   return (
   <div>
     <Header/>
