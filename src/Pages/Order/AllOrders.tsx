@@ -29,7 +29,7 @@ function AllOrders() {
     status: ""
   });
     const {data, isLoading} = useGetAllOrdersQuery({
-      ...(apiFilters && {searchString: apiFilters.searchString, status:apiFilters.status})
+      ...(apiFilters && {searchString: apiFilters.searchString, status:apiFilters.status, pageNumber: pageOptions.pageNumber, pageSize: pageOptions.pageSize})
     });
   
    
@@ -52,12 +52,27 @@ function AllOrders() {
         setTotalRecords(TotalRecords);
       }
     }, [data]);
+
+    const getPageDetails = ()=> {
+      const dataStartNumber= (pageOptions.pageNumber - 1)* pageOptions.pageSize +1;
+      const dataEndNumber = pageOptions.pageNumber * pageOptions.pageSize;
+      return `${dataStartNumber}
+        -
+        ${dataEndNumber < totalRecords ? dataEndNumber: totalRecords} of ${totalRecords}`;
+    };
+
+    const handlePaginationClick =(direction: string)=>{
+      if(direction === "prev"){
+        setPageOptions({pageSize: 5, pageNumber: pageOptions.pageNumber - 1})
+      }else if(direction === "next"){
+        setPageOptions({pageSize: 5, pageNumber: pageOptions.pageNumber + 1})
+      }
+    }
   return (
     <>
     {isLoading && <MainLoader/>}
     {!isLoading && (
       <>
-      {totalRecords}
       <div className='d-flex align-items-center justify-content-between mx-5 mt-5'>
         <h3 className="text-success">Orders list</h3>
         <div className="d-flex" style={{width: "40%"}}>
@@ -71,6 +86,15 @@ function AllOrders() {
         </div>
       </div>
     <OrderList isLoading={isLoading} orderData={orderData}/>
+    <div className="d-flex mx-5 justify-content-end align-items-center">
+      <div className="mx-2">{getPageDetails()}</div>
+      <button className="btn btn-outline-primary px-3 mx-2" disabled={pageOptions.pageNumber === 1} onClick={()=>handlePaginationClick("prev")}>
+        <i className="bi bi-chevron-left"></i>
+      </button>
+      <button className="btn btn-outline-primary px-3 mx-2" disabled={pageOptions.pageNumber*pageOptions.pageSize >= totalRecords} onClick={()=>handlePaginationClick("next")}>
+        <i className="bi bi-chevron-right"></i>
+      </button>
+    </div>
     </>
     
     )}
