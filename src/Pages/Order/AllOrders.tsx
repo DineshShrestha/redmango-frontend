@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { withAdminAuth } from '../../HOC';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../Storage/Redux/store';
@@ -7,6 +7,7 @@ import OrderList from './OrderList';
 import { MainLoader } from '../../Components/Page/Common';
 import { SD_Status } from '../../Utility/SD';
 import { inputHelper } from '../../Helper';
+import { orderHeaderModel } from '../../Interfaces';
 
 const filterOptions = [
   "All",
@@ -17,29 +18,53 @@ const filterOptions = [
 ];
 function AllOrders() {
     const {data, isLoading} = useGetAllOrdersQuery("");
+    const [orderData, setOrderData] = useState([]);
     const [filters, setFilters] = useState({searchString:"", status: ""});
     const handleChange=(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>)=>{
+  
       const tempValue = inputHelper(e, filters);
       setFilters(tempValue);
     };
+
+    const handleFilters = ()=> {
+      const tempData = data.result.filter((orderData: orderHeaderModel)=>{
+        if((orderData.pickupName && orderData.pickupName.includes(filters.searchString))||
+        (orderData.pickupEmail && orderData.pickupEmail.includes(filters.searchString))||
+        (orderData.pickupPhoneNumber && orderData.pickupPhoneNumber.includes(filters.searchString))
+        ){
+          return orderData;
+        }
+      })
+      console.log(tempData);
+      // const finalArray = tempData.filter((orderData: orderHeaderModel)=> 
+      //   filters.status !== " "? orderData.status === filters.status: orderData
+      // );
+      //console.log(finalArray);
+      setOrderData(tempData);
+    }
+    useEffect(()=>{
+      if(data){
+        setOrderData(data.result)
+      }
+    }, [data]);
   return (
     <>
     {isLoading && <MainLoader/>}
     {!isLoading && (
       <>
       <div className='d-flex align-items-center justify-content-between mx-5 mt-5'>
-        <h1 className="text-success">Orders list</h1>
+        <h3 className="text-success">Orders list</h3>
         <div className="d-flex" style={{width: "40%"}}>
-          <input type="text" className="form-control mx-2" placeholder='Search Name, Email or Phone' onChange={handleChange} name='searchString'/>
+          <input type="text" className="form-control mx-2" placeholder='Search Name, Email or Phone' name='searchString' onChange={handleChange} />
           <select className="form-select w-50 mx-2"  onChange={handleChange} name='status'>
-            {filterOptions.map((item)=>(
-              <option value={item==="All"? "": item}>{item}</option>
+            {filterOptions.map((item, index)=>(
+              <option key={index} value={item==="All"? "": item}>{item}</option>
             ))}
           </select>
-          <button className="btn btn-outline-success">Filter</button>
+          <button className="btn btn-outline-success" onClick={handleFilters}>Filter</button>
         </div>
       </div>
-    <OrderList isLoading={isLoading} orderData={data.result}/>
+    <OrderList isLoading={isLoading} orderData={orderData}/>
     </>
     
     )}
