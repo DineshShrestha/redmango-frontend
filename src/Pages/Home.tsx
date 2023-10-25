@@ -1,5 +1,5 @@
 import React from 'react'
-import { MenuItemList } from '../Components/Page/Home'
+import { MenuItemList } from '../Components/Page/MenuItems'
 import { Banner } from '../Components/Page/Common'
 
 function Home() {

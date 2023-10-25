@@ -1,4 +1,4 @@
-import { orderHeaderModel } from "../../Interfaces";
+import { orderHeaderModel } from "../../../Interfaces";
 
 export default interface OrderListProps{
     isLoading: boolean;

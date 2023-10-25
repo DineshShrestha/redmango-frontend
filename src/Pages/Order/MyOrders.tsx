@@ -3,7 +3,7 @@ import { withAuth } from '../../HOC';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../Storage/Redux/store';
 import { useGetAllOrdersQuery } from '../../Apis/orderApi';
-import OrderList from './OrderList';
+import OrderList from '../../Components/Page/Order/OrderList';
 import { MainLoader } from '../../Components/Page/Common';
 import { SD_Status } from '../../Utility/SD';
 

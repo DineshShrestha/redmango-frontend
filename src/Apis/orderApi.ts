@@ -33,10 +33,10 @@ const orderApi = createApi({
                     ...(pageNumber && {pageNumber})
                 },
             }),
-            transformResponse(apiResponse:{result: any},meta: any){
-                return{
-                    apiResponse,
-                    totalRecords: meta.response.header.get("X-Pagination"),
+            transformResponse(apiResponse: { result: any }, meta: any) {
+                return {
+                  apiResponse,
+                  totalRecords: meta.response.headers.get("X-Pagination"),
                 };
             },
             providesTags: ["Orders"]
