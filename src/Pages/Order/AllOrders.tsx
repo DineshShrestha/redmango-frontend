@@ -17,9 +17,17 @@ const filterOptions = [
   SD_Status.CANCELLED,
 ];
 function AllOrders() {
-    const {data, isLoading} = useGetAllOrdersQuery("");
-    const [orderData, setOrderData] = useState([]);
-    const [filters, setFilters] = useState({searchString:"", status: ""});
+  const [filters, setFilters] = useState({searchString:"", status: ""});
+  const [orderData, setOrderData] = useState([]);
+  const [apiFilters, setApiFilters] = useState({
+    searchString: "",
+    status: ""
+  });
+    const {data, isLoading} = useGetAllOrdersQuery({
+      ...(apiFilters && {searchString: apiFilters.searchString, status:apiFilters.status})
+    });
+  
+   
     const handleChange=(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>)=>{
   
       const tempValue = inputHelper(e, filters);
@@ -27,20 +35,10 @@ function AllOrders() {
     };
 
     const handleFilters = ()=> {
-      const tempData = data.result.filter((orderData: orderHeaderModel)=>{
-        if((orderData.pickupName && orderData.pickupName.includes(filters.searchString))||
-        (orderData.pickupEmail && orderData.pickupEmail.includes(filters.searchString))||
-        (orderData.pickupPhoneNumber && orderData.pickupPhoneNumber.includes(filters.searchString))
-        ){
-          return orderData;
-        }
-      })
-      console.log(tempData);
-      // const finalArray = tempData.filter((orderData: orderHeaderModel)=> 
-      //   filters.status !== " "? orderData.status === filters.status: orderData
-      // );
-      //console.log(finalArray);
-      setOrderData(tempData);
+      setApiFilters({
+        searchString: filters.searchString,
+        status: filters.status
+      });
     }
     useEffect(()=>{
       if(data){
