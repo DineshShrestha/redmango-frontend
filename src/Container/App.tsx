@@ -11,8 +11,9 @@ import { userModel } from "../Interfaces";
 import { setLoggedInUser } from "../Storage/Redux/userAuthSlice";
 import { RootState } from "../Storage/Redux/store";
 function App() {
-  const [skip, setSkip] = useState(true);
   const dispatch = useDispatch();
+  const [skip, setSkip] = useState(true);
+
   const userData:userModel = useSelector((state: RootState)=>state.userAuthStore);
   const {data, isLoading} = useGetShoppingCartQuery(userData.id, {skip: skip});
   useEffect(()=>{
@@ -23,7 +24,7 @@ function App() {
     }
   }, [])
   useEffect(()=>{
-    if(!isLoading){
+    if(!isLoading && data){
       dispatch(setShoppingCart(data.result?.cartItems));
     }
   }, [data]);
